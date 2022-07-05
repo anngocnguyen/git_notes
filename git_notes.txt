@@ -1,0 +1,120 @@
+Notes on using GIT
+
+------------------------------------
+-- 1/ Fundamental Concepts of GIT --
+------------------------------------
+Git is version control software (like svn)
+
+svn is centralized repository while git is decentralized (there are both local branch and global branch)
+
+Three working areas:
+- Working directory: where the files are.
+- Stage area: git add put things in working directory into stage area. 
+- History tree: where the commit notes history is stored.
+
+Most of commands that effect the whole commit can apply to a certain files by adding:
+"-- [files]"
+at the end of the command.
+
+commit: is a node in history tree.
+branch: branch is a pointer to a node.
+HEAD: is a pointer to a branch. branch which is pointer by HEAD is an active branch.
+HEAD can also point directly to a commit instead of branch (detach).
+active branch: when commit active branch, the branch will be moved up when the new commit created.
+tag: is pointer to a node like branch but it is fixed. tag is used for marking milestone in history tree.
+remote branch: origin/[branch]. origin is normally the remote name of the repos server.
+
+------------------------
+-- 2/ Making a commit --
+------------------------
+Making a commit includes two steps:
+- 1: Move the change from working dir to stage area (add, rm, mv).
+- 2: Move the change from stage area to history tree to create new commit, i.e. new node (use commit).
+
+(Working dir <-> Stage area)
+git add [files]                 Add files to tracking
+git rm [files]                  Remove files from tracking
+git mv [files]                  Change file name in git
+git status                      Status of working dir compare to stage area
+git diff                        diff between working dir and stage area
+git checkout -- [files]         Discard change on working directory
+
+(Stage area <-> History tree)
+git commit -m "commit comment here"
+git commit --amend              Revise a commit, rewrite the last commit without create new node
+git diff --staged               Diff between stage area and HEAD commit on history tree.
+git reset HEAD [files]          unstage, i.e. stage area is revert to similar as HEAD.
+
+--------------------------------
+-- 3/ Repository history tree --
+--------------------------------
+git log                         Show the history tree
+git show HEAD                   Show where is the HEAD in history tree
+
+Relative commit hash (instead of commit hash, a commit can be refered to by relative ~ and ^)
+HEAD~3          3 level up from HEAD
+HEAD^2          ^ is use with number when there are more than one parent node
+
+git reset --soft [commit]       HEAD reset to a commit node
+git reset --mixed [commit]      HEAD reset to a commit node and staging area is reset
+git reset --hard [commit]       HEAD reset to a commit node, staging area is reset, working tree is reset
+
+git revert [commit]     Create a new commit that revert the change back to [commit] node
+
+git checkout [commit]   Detach HEAD and point to a certain commit node
+git checkout [tag]      Detach HEAD and point to commit node where the tag is
+git checkout [branch]   Attach HEAD to [branch]
+
+git checkout -b [branch]        create a new branch and attach HEAD to that branch
+
+git tag [tag] [commit]          Create a tag named [tag] @ [commit] node
+
+-------------------------
+-- 4/ Merge and Rebase --
+-------------------------
+Merge and Rebase is two ways of merging the change of two branches
+Merge is straight forward and preserve history tree
+Rebase create cleaner history tree but it rewrite history tree.
+Rule of thumbs: rebase for local branches, merge for shared branches.
+
+Consider below example. master is active branch and need to be merge with foo.
+
+I---c1---c2---c3(master*)
+          \
+           ---c4(foo)
+
+(*) Merge solution
+git checkout master     make master become active branch
+git merge foo           merge active branch (master) with branch foo
+
+I---c1---c2---c3--------c5(master*)
+          \             /
+           ---c4(foo)---
+
+(*) Rebase solution
+git checkout foo        make foo become active branch
+git rebase main         rebase foo branch base on main branch
+
+I---c1---c2---c3(master)---c4'(foo*)
+          \
+           ---c4
+
+git checkout master     make master become active branch
+git merge foo           merge forward master branch to foo
+
+I---c1---c2---c3---c4'(foo, master*)
+          \
+           ---c4
+
+-----------------------------------
+-- 5/ Moving commits around tree --
+-----------------------------------
+For moving commit nodes around the tree, use cherry-pick or rebase interactive
+
+git cherry-pick [commits]       Pick a list of commits and put them subsequently after current HEAD
+
+git rebase -i [commit]          Interactively choose list of commit and put them subsequently after [commit]
+
+--------------------------------
+-- Working with remote server --
+--------------------------------
