@@ -19,7 +19,7 @@ at the end of the command.
 commit: is a node in history tree.
 branch: branch is a pointer to a node.
 HEAD: is a pointer to a branch. branch which is pointer by HEAD is an active branch.
-HEAD can also point directly to a commit instead of branch (detach).
+HEAD can also point directly to a commit instead of branch (detach mode).
 active branch: when commit active branch, the branch will be moved up when the new commit created.
 tag: is pointer to a node like branch but it is fixed. tag is used for marking milestone in history tree.
 remote branch: origin/[branch]. origin is normally the remote name of the repos server.
@@ -118,3 +118,14 @@ git rebase -i [commit]          Interactively choose list of commit and put them
 --------------------------------
 -- Working with remote server --
 --------------------------------
+Git project can be hosted on a server (like github, gitlab, bitbucket, etc.) in order to cooperate development.
+Developer can get git project from git server by using clone command
+    git clone [git URL]
+On local project there will be local branch and remote branch
+Remote branch appears in form [remote]/[branch]
+The default remote name is "origin"
+One local git repos can tracking multiple remote. git remote commands can be used to add, change name, change URL, etc. of a remote server.
+    git remote rename [old] [new]
+    git remote remove [remote]
+    git remote get-url [remote]
+    git remote set-url [remote] [url]
