@@ -119,13 +119,33 @@ git rebase -i [commit]          Interactively choose list of commit and put them
 -- Working with remote server --
 --------------------------------
 Git project can be hosted on a server (like github, gitlab, bitbucket, etc.) in order to cooperate development.
+
 Developer can get git project from git server by using clone command
     git clone [git URL]
+
 On local project there will be local branch and remote branch
-Remote branch appears in form [remote]/[branch]
+Remote branch appears in form 
+    [remote]/[branch]
+
 The default remote name is "origin"
 One local git repos can tracking multiple remote. git remote commands can be used to add, change name, change URL, etc. of a remote server.
     git remote rename [old] [new]
     git remote remove [remote]
     git remote get-url [remote]
     git remote set-url [remote] [url]
+
+Developer commit into local branches. There are 3 commands to sync local branch and remote branch.
+
+(*) To Update sync local branch to remote branch
+    git fetch origin            Update all remote branches to the state as in remote origin
+    git fetch origin main       Update remote branch origin/main
+    git checkout main
+    git merge origin/main
+
+(*) Fetch and merge can be combined to single command pull
+    git pull origin main        Fetch origin/main and merge local branch main to remote branch origin/main
+    git pull origin             Like above command but do it for all branches
+
+(*) To Update remote repository
+    git push origin main        Push local branch main to remote branch origin/main
+    git push origin             Like above command but do it for all branches
