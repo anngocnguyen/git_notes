@@ -156,3 +156,20 @@ Developer commit into local branches. There are 3 commands to sync local branch 
 (*) To Update remote repository
     git push origin main        Push local branch main to remote branch origin/main
     git push origin             Like above command but do it for all branches
+
+-----------------------------
+-- Resolve merge conflicts --
+-----------------------------
+Merge and Rebase will very likely create conflicts.
+If not quite sure what to do, undo merge or rebase:
+    git merge --abort
+    git rebase --abort
+Open files that consist conflicts, the conflicts appears as following:
+	<<<<< HEAD
+		(...) what is in the HEAD branch
+	=====
+	>>>>> develop
+		(...) what is in develop branch
+Clean up those conflicts and commit again.
+Use mergetool to help resolve conflicts easier
+    git mergetool
