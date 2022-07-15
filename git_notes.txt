@@ -33,6 +33,7 @@ Making a commit includes two steps:
 
 (Working dir <-> Stage area)
 git add [files]                 Add files to tracking
+git add -p [files]              Add on patch level (paritally commit a file)
 git rm [files]                  Remove files from tracking
 git mv [files]                  Change file name in git
 git status                      Status of working dir compare to stage area
@@ -114,6 +115,12 @@ For moving commit nodes around the tree, use cherry-pick or rebase interactive
 git cherry-pick [commits]       Pick a list of commits and put them subsequently after current HEAD
 
 git rebase -i [commit]          Interactively choose list of commit and put them subsequently after [commit]
+
+--------------------
+-- Misc. Commands --
+--------------------
+git clean -df           // Delete all untracked files and directories
+git reflog              // History of git commands, can be used to looking for commit nodes that already removed from history tree.
 
 --------------------------------
 -- Working with remote server --
